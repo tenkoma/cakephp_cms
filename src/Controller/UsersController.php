@@ -12,6 +12,11 @@ use App\Controller\AppController;
  */
 class UsersController extends AppController
 {
+    public function initialize()
+    {
+        parent::initialize();
+        $this->Auth->allow(['logout', 'add']);
+    }
 
     /**
      * Index method
@@ -119,5 +124,11 @@ class UsersController extends AppController
             }
             $this->Flash->error('ユーザー名またはパスワードが不正です。');
         }
+    }
+
+    public function logout()
+    {
+        $this->Flash->success('ログアウトしました。');
+        return $this->redirect($this->Auth->logout());
     }
 }
