@@ -17,6 +17,7 @@ class ArticlesController extends AppController
 
         $this->loadComponent('Paginator');
         $this->loadComponent('Flash'); // FlashComponent をインクルード
+        $this->Auth->allow(['tags']);
     }
 
     public function isAuthorized($user)
