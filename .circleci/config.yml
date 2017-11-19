@@ -12,7 +12,7 @@ jobs:
         environment:
           MYSQL_DATABASE: cake_cms
           MYSQL_ROOT_PASSWORD: password
-    working_directory: /var/www/html
+    working_directory: ~/cake_cms
     steps:
       - restore_cache:
           key: cakephp-cms-{{ .Branch }}
