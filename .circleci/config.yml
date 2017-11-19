@@ -1,0 +1,40 @@
+version: 2
+jobs:
+  php_test:
+    docker:
+      - image: circleci/php:7.1-node-browsers
+        environment:
+          DEBUG: true
+          DATABASE_URL: "mysql://root:password@127.0.0.1/cake_cms?encoding=utf8mb4&timezone=UTC&cacheMetadata=true"
+          DATABASE_TEST_URL: "mysql://root:password@127.0.0.1/cake_cms?encoding=utf8mb4&timezone=UTC&cacheMetadata=true"
+      - image: circleci/mysql:5.7
+        command: mysqld  --character-set-server=utf8mb4 --collation-server=utf8mb4_general_ci
+        environment:
+          MYSQL_DATABASE: cake_cms
+          MYSQL_ROOT_PASSWORD: password
+    working_directory: /var/www/html
+    steps:
+      - restore_cache:
+          key: cakephp-cms-{{ .Branch }}
+      - checkout
+      - run: composer install --dev --no-interaction
+      - save_cache:
+          key: cakephp-cms-{{ .Branch }}
+          paths:
+            - "/home/ubuntu/.composer/cache"
+      - run:
+          name: create test repot dir
+          command: mkdir -p $CIRCLE_TEST_REPORTS/phpunit
+      - run:
+          name: Wait for MySQL DB
+          command: dockerize -wait tcp://localhost:3306 -timeout 1m
+      - run:
+          name: Initialize Database
+          command: bin/cake migrations migrate
+      - run: vendor/bin/phpunit --configuration phpunit.xml.dist --log-junit $CIRCLE_TEST_REPORTS/phpunit/junit.xml
+
+workflows:
+  version: 2
+  build-all:
+    jobs:
+      - php_test
