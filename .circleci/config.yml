@@ -16,7 +16,7 @@ jobs:
     working_directory: ~/cake_cms
     steps:
       - run: sudo apt-get update && sudo apt-get install -y zlib1g-dev libicu-dev g++
-      - run: sudo docker-php-ext-configure intl pdo_mysql && sudo docker-php-ext-install intl pdo_mysql
+      - run: sudo docker-php-ext-install intl pdo_mysql
       - restore_cache:
           key: cakephp-cms-{{ .Branch }}
       - checkout
