@@ -5,8 +5,8 @@ jobs:
       - image: circleci/php:7.1-node-browsers
         environment:
           DEBUG: true
-          DATABASE_URL: "mysql://root:password@127.0.0.1/cake_cms?encoding=utf8mb4&timezone=UTC&cacheMetadata=true"
-          DATABASE_TEST_URL: "mysql://root:password@127.0.0.1/cake_cms?encoding=utf8mb4&timezone=UTC&cacheMetadata=true"
+          DATABASE_URL: "mysql://cakephp:password@127.0.0.1/cake_cms?encoding=utf8mb4&timezone=UTC&cacheMetadata=true"
+          DATABASE_TEST_URL: "mysql://cakephp:password@127.0.0.1/test_cake_cms?encoding=utf8mb4&timezone=UTC&cacheMetadata=true"
           CIRCLE_TEST_REPORTS: ~/report
       - image: circleci/mysql:5.7
         command: mysqld  --character-set-server=utf8mb4 --collation-server=utf8mb4_general_ci
@@ -15,7 +15,7 @@ jobs:
           MYSQL_ROOT_PASSWORD: password
     working_directory: ~/cake_cms
     steps:
-      - run: sudo apt-get update && sudo apt-get install -y zlib1g-dev libicu-dev g++
+      - run: sudo apt-get update && sudo apt-get install -y zlib1g-dev libicu-dev g++ mariadb-client
       - run: sudo docker-php-ext-install intl pdo_mysql
       - restore_cache:
           key: cakephp-cms-{{ .Branch }}
@@ -31,6 +31,9 @@ jobs:
       - run:
           name: Wait for MySQL DB
           command: dockerize -wait tcp://localhost:3306 -timeout 1m
+      - run: mysql -uroot -ppassword -e 'GRANT ALL ON cake_cms.* TO cakephp@"127.0.0.1" IDENTIFIED BY "password";'
+      - run: mysql -uroot -ppassword -e 'CREATE DATABASE test_cake_cms CHARACTER SET utf8mb4;'
+      - run: mysql -uroot -ppassword -e 'GRANT ALL ON test_cake_cms.* TO cakephp@"127.0.0.1" IDENTIFIED BY "password";'
       - run:
           name: Initialize Database
           command: bin/cake migrations migrate
