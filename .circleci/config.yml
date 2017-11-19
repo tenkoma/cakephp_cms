@@ -31,9 +31,9 @@ jobs:
       - run:
           name: Wait for MySQL DB
           command: dockerize -wait tcp://localhost:3306 -timeout 1m
-      - run: mysql -uroot -ppassword -e 'GRANT ALL ON cake_cms.* TO cakephp@"127.0.0.1" IDENTIFIED BY "password";'
-      - run: mysql -uroot -ppassword -e 'CREATE DATABASE test_cake_cms CHARACTER SET utf8mb4;'
-      - run: mysql -uroot -ppassword -e 'GRANT ALL ON test_cake_cms.* TO cakephp@"127.0.0.1" IDENTIFIED BY "password";'
+      - run: mysql -uroot -ppassword -h "127.0.0.1" -e 'GRANT ALL ON cake_cms.* TO cakephp@"127.0.0.1" IDENTIFIED BY "password";'
+      - run: mysql -uroot -ppassword -h "127.0.0.1" -e 'CREATE DATABASE test_cake_cms CHARACTER SET utf8mb4;'
+      - run: mysql -uroot -ppassword -h "127.0.0.1" -e 'GRANT ALL ON test_cake_cms.* TO cakephp@"127.0.0.1" IDENTIFIED BY "password";'
       - run:
           name: Initialize Database
           command: bin/cake migrations migrate
