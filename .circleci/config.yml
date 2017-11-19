@@ -14,6 +14,9 @@ jobs:
           MYSQL_ROOT_PASSWORD: password
     working_directory: ~/cake_cms
     steps:
+      - run: sudo apt-get update && sudo apt-get install -y zlib1g-dev libicu-dev g++
+      - run: sudo docker-php-ext-configure intl
+      - run: sudo docker-php-ext-install intl
       - restore_cache:
           key: cakephp-cms-{{ .Branch }}
       - checkout
