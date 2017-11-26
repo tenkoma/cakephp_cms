@@ -47,11 +47,23 @@ class ArticlesFixture extends TestFixture
      */
     public $records = [
         [
+            // タグあり
             'id' => 1,
             'user_id' => 1,
-            'title' => 'Lorem ipsum dolor sit amet',
-            'slug' => 'Lorem ipsum dolor sit amet',
-            'body' => 'Lorem ipsum dolor sit amet, aliquet feugiat. Convallis morbi fringilla gravida, phasellus feugiat dapibus velit nunc, pulvinar eget sollicitudin venenatis cum nullam, vivamus ut a sed, mollitia lectus. Nulla vestibulum massa neque ut et, id hendrerit sit, feugiat in taciti enim proin nibh, tempor dignissim, rhoncus duis vestibulum nunc mattis convallis.',
+            'title' => 'CakePHP3 チュートリアル',
+            'slug' => 'CakePHP3-chutoriaru',
+            'body' => 'このチュートリアルは簡単な CMS アプリケーションを作ります。 はじめに CakePHP のインストールを行い、データベースの作成、 そしてアプリケーションを素早く仕上げるための CakePHP が提供するツールを使います。',
+            'published' => 1,
+            'created' => '2017-11-19 11:04:25',
+            'modified' => '2017-11-19 11:04:25'
+        ],
+        [
+            // タグなし
+            'id' => 2,
+            'user_id' => 1,
+            'title' => 'Happy new year',
+            'slug' => 'Happy-new-year',
+            'body' => '2018🍺🍺🍺🍺🍺',
             'published' => 1,
             'created' => '2017-11-19 11:04:25',
             'modified' => '2017-11-19 11:04:25'
