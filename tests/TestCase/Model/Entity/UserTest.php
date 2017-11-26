@@ -2,6 +2,7 @@
 namespace App\Test\TestCase\Model\Entity;
 
 use App\Model\Entity\User;
+use Cake\Auth\DefaultPasswordHasher;
 use Cake\TestSuite\TestCase;
 
 /**
@@ -40,13 +41,16 @@ class UserTest extends TestCase
         parent::tearDown();
     }
 
-    /**
-     * Test initial setup
-     *
-     * @return void
-     */
-    public function testInitialization()
+    public function testSetPassword()
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $rawPassword = 'secret';
+        $this->User->password = $rawPassword;
+        $hashedPassword = $this->User->password;
+
+        // ハッシュ化済み
+        $this->assertNotSame($rawPassword, $hashedPassword);
+
+        $hasher = new DefaultPasswordHasher();
+        $this->assertTrue($hasher->check($rawPassword, $hashedPassword));
     }
 }
