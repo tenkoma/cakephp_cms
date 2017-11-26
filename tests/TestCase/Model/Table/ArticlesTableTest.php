@@ -4,6 +4,7 @@ namespace App\Test\TestCase\Model\Table;
 use App\Model\Table\ArticlesTable;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
+use Cake\Utility\Text;
 
 /**
  * App\Model\Table\ArticlesTable Test Case
@@ -119,5 +120,21 @@ class ArticlesTableTest extends TestCase
 
         // タグに変換
         $this->assertSame('PHP', $article->tags[0]->title);
+    }
+
+    public function testSaveUpdate()
+    {
+        $article = $this->ArticlesTable->get(1);
+        $this->assertSame('CakePHP3-chutoriaru', $article->slug);
+        $article = $this->ArticlesTable->patchEntity($article, [
+            'title' => 'CakePHP3 Tutorial',
+        ]);
+        $this->ArticlesTable->save($article);
+
+        $newArticle = $this->ArticlesTable->get(1);
+
+        // title が変わってもスラグは変化しない
+        $this->assertSame('CakePHP3 Tutorial', $newArticle->title);
+        $this->assertSame('CakePHP3-chutoriaru', $newArticle->slug);
     }
 }
