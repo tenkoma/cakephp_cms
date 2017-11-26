@@ -26,7 +26,8 @@ class ArticlesTableTest extends TestCase
     public $fixtures = [
         'app.articles',
         'app.tags',
-        'app.articles_tags'
+        'app.articles_tags',
+        'app.users',
     ];
 
     /**
@@ -94,5 +95,29 @@ class ArticlesTableTest extends TestCase
             'title' => ['maxLength' => 'The provided value is invalid'],
         ];
         $this->assertSame($expected, $moreArticle->getErrors());
+    }
+
+    /**
+     * articles 追加
+     */
+    public function testSaveInsert()
+    {
+        $newArticle = $this->ArticlesTable->newEntity([
+            'user_id' => 1,
+            'title' => 'CakePHP テスト',
+            'body' => str_repeat('🍺', 10),
+            'tag_string' => 'PHP',
+        ]);
+        $this->ArticlesTable->save($newArticle);
+
+        $article = $this->ArticlesTable->get($newArticle->id, [
+            'contain' => ['tags'],
+        ]);
+
+        // スラグ
+        $this->assertSame('CakePHP-tesuto', $article->slug);
+
+        // タグに変換
+        $this->assertSame('PHP', $article->tags[0]->title);
     }
 }
