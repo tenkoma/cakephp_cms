@@ -40,7 +40,19 @@ class TagsFixture extends TestFixture
     public $records = [
         [
             'id' => 1,
-            'title' => 'Lorem ipsum dolor sit amet',
+            'title' => 'PHP',
+            'created' => '2017-11-18 12:15:34',
+            'modified' => '2017-11-18 12:15:34'
+        ],
+        [
+            'id' => 2,
+            'title' => 'CakePHP',
+            'created' => '2017-11-18 12:15:34',
+            'modified' => '2017-11-18 12:15:34'
+        ],
+        [
+            'id' => 3,
+            'title' => 'Bakery',
             'created' => '2017-11-18 12:15:34',
             'modified' => '2017-11-18 12:15:34'
         ],

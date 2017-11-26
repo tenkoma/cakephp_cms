@@ -4,7 +4,6 @@ namespace App\Test\TestCase\Model\Table;
 use App\Model\Table\ArticlesTable;
 use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase;
-use Cake\Utility\Text;
 
 /**
  * App\Model\Table\ArticlesTable Test Case
@@ -136,5 +135,25 @@ class ArticlesTableTest extends TestCase
         // title が変わってもスラグは変化しない
         $this->assertSame('CakePHP3 Tutorial', $newArticle->title);
         $this->assertSame('CakePHP3-chutoriaru', $newArticle->slug);
+    }
+
+    public function testFindTagged()
+    {
+        // タグなし
+        $notTaggedArticle = $this->ArticlesTable
+            ->find('tagged', ['tags' => []])
+            ->contain(['Tags'])
+            ->first();
+        $this->assertEmpty($notTaggedArticle->tags);
+
+        // タグあり
+        $taggedArticle = $this->ArticlesTable
+            ->find('tagged', ['tags' => ['PHP']])
+            ->contain(['Tags'])
+            ->first();
+        $tags = new \Cake\Collection\Collection($taggedArticle->tags);
+        $this->assertNotEmpty($tags->filter(function($tag) {
+            return $tag->title === 'PHP';
+        }));
     }
 }
