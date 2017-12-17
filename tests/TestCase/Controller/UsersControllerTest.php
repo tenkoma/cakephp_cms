@@ -56,4 +56,17 @@ class UsersControllerTest extends IntegrationTestCase
         $this->assertRedirect('/articles/add');
         $this->assertSession(1, 'Auth.User.id');
     }
+
+    /**
+     * ログアウト
+     */
+    public function testLogout()
+    {
+        $this->session(['Auth.User.id' => 1]);
+
+        $this->get('/users/logout');
+
+        $this->assertSession([], 'Auth');
+        $this->assertRedirect('/users/login');
+    }
 }
