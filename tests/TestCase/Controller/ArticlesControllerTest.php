@@ -21,34 +21,13 @@ class ArticlesControllerTest extends IntegrationTestCase
         'app.articles_tags'
     ];
 
-    /**
-     * Test initialize method
-     *
-     * @return void
-     */
-    public function testInitialize()
+    public function test記事一覧を表示()
     {
-        $this->markTestIncomplete('Not implemented yet.');
-    }
+        $this->get('/articles');
 
-    /**
-     * Test isAuthorized method
-     *
-     * @return void
-     */
-    public function testIsAuthorized()
-    {
-        $this->markTestIncomplete('Not implemented yet.');
-    }
-
-    /**
-     * Test index method
-     *
-     * @return void
-     */
-    public function testIndex()
-    {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->assertResponseOk();
+        $this->assertResponseContains('CakePHP3 チュートリアル');
+        $this->assertResponseContains('Happy new year');
     }
 
     /**
