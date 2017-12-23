@@ -129,14 +129,25 @@ class ArticlesControllerTest extends IntegrationTestCase
         $this->assertResponseNotContains('1時間で分かるCakePHP3 チュートリアル');
     }
 
-    /**
-     * Test delete method
-     *
-     * @return void
-     */
-    public function testDelete()
+    public function test記事を削除してその後記事一覧にリダイレクトする()
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->session(['Auth.User.id' => 1]);
+        $this->post('/articles/delete/CakePHP3-chutoriaru');
+
+        $this->assertRedirect('/articles');
+
+        $this->get('/articles');
+        $this->assertResponseNotContains('CakePHP3 チュートリアル');
+    }
+
+    public function testGetリクエストの場合削除しない()
+    {
+        $this->session(['Auth.User.id' => 1]);
+        $this->get('/articles/delete/CakePHP3-chutoriaru');
+
+        $this->assertResponseCode(405);
+        $this->get('/articles');
+        $this->assertResponseContains('CakePHP3 チュートリアル');
     }
 
     /**
