@@ -150,13 +150,21 @@ class ArticlesControllerTest extends IntegrationTestCase
         $this->assertResponseContains('CakePHP3 チュートリアル');
     }
 
-    /**
-     * Test tags method
-     *
-     * @return void
-     */
-    public function testTags()
+    public function test複数タグを指定してアクセス()
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->get('/articles/tagged/php/cakephp');
+
+        $this->assertResponseOk();
+        $this->assertResponseRegExp('/Articles tagged with\s+php or cakephp/m');
+        $this->assertResponseContains('CakePHP3 チュートリアル');
+    }
+
+    public function test存在しないタグを指定してアクセス()
+    {
+        $this->get('/articles/tagged/undefined-tag');
+
+        $this->assertResponseOk();
+        $this->assertResponseRegExp('/Articles tagged with\s+undefined-tag/m');
+        $this->assertResponseContains('記事が見つかりませんでした。');
     }
 }

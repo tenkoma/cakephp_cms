@@ -10,6 +10,9 @@
 </h1>
 
 <section>
+    <?php if ($articles->count() === 0): ?>
+    <p>記事が見つかりませんでした。</p>
+    <?php endif; ?>
     <?php foreach ($articles as $article): ?>
         <article>
             <!-- リンクの作成に HtmlHelper を使用 -->
