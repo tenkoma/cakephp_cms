@@ -57,7 +57,7 @@ class ArticlesControllerTest extends IntegrationTestCase
         $this->assertResponseContains('記事の追加');
     }
 
-    public function test記事が追加されると、記事一覧にリダイレクトする()
+    public function test記事が追加されると記事一覧にリダイレクトする()
     {
         $this->session(['Auth.User.id' => 1]);
         $this->post('/articles/add', [
@@ -73,7 +73,7 @@ class ArticlesControllerTest extends IntegrationTestCase
         $this->assertResponseContains('Nintendo Switch を購入！');
     }
 
-    public function testバリデーションエラーだと追加できず、エラーメッセージが表示される()
+    public function testバリデーションエラーだと追加できずエラーメッセージが表示される()
     {
         $this->session(['Auth.User.id' => 1]);
         $this->post('/articles/add', [
@@ -89,14 +89,44 @@ class ArticlesControllerTest extends IntegrationTestCase
         $this->assertResponseNotContains('Nintendo Switch を購入！');
     }
 
-    /**
-     * Test edit method
-     *
-     * @return void
-     */
-    public function testEdit()
+    public function test記事編集ページにアクセスできる()
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->session(['Auth.User.id' => 1]);
+        $this->get('/articles/edit/CakePHP3-chutoriaru');
+
+        $this->assertResponseContains('記事の編集');
+        $this->assertResponseContains('CakePHP3 チュートリアル');
+    }
+
+    public function test記事を更新し記事一覧にリダイレクトする()
+    {
+        $this->session(['Auth.User.id' => 1]);
+        $this->post('/articles/edit/CakePHP3-chutoriaru', [
+            // タイトルを変更する
+            'title' => '1時間で分かるCakePHP3 チュートリアル',
+            'body' => 'このチュートリアルは簡単な CMS アプリケーションを作ります。 はじめに CakePHP のインストールを行い、データベースの作成、 そしてアプリケーションを素早く仕上げるための CakePHP が提供するツールを使います。',
+            'tag_string' => 'PHP,CakePHP',
+        ]);
+        $this->assertRedirect('/articles');
+        $this->assertSession('Your article has been updated.', 'Flash.flash.0.message');
+
+        $this->get('/articles');
+        $this->assertResponseContains('1時間で分かるCakePHP3 チュートリアル');
+    }
+
+    public function testバリデーションエラーだと更新できずエラーメッセージが表示される()
+    {
+        $this->session(['Auth.User.id' => 1]);
+        $this->post('/articles/edit/CakePHP3-chutoriaru', [
+            // タイトルを変更する
+            'title' => '1時間で分かるCakePHP3 チュートリアル',
+            'body' => '',
+        ]);
+        $this->assertResponseOk();
+        $this->assertResponseContains('Unable to update your article.');
+
+        $this->get('/articles');
+        $this->assertResponseNotContains('1時間で分かるCakePHP3 チュートリアル');
     }
 
     /**
