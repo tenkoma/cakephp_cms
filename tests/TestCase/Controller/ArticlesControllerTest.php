@@ -30,14 +30,21 @@ class ArticlesControllerTest extends IntegrationTestCase
         $this->assertResponseContains('Happy new year');
     }
 
-    /**
-     * Test view method
-     *
-     * @return void
-     */
-    public function testView()
+    public function test記事詳細ページを表示()
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->get('/articles/view/CakePHP3-chutoriaru');
+
+        $this->assertResponseOk();
+        $this->assertResponseContains('CakePHP3 チュートリアル'); // title
+        $this->assertResponseContains('このチュートリアルは簡単な ' .
+            'CMS アプリケーションを作ります。'); // body
+    }
+
+    public function test記事詳細ページが存在しない()
+    {
+        $this->get('/articles/view/not-found-articles');
+
+        $this->assertResponseCode(404);
     }
 
     /**
