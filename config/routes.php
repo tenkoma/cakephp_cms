@@ -45,6 +45,17 @@ use Cake\Routing\Route\DashedRoute;
  */
 Router::defaultRouteClass(DashedRoute::class);
 
+// タグ付けられたアクションのために追加された新しいルート。
+// 末尾の `*` は、このアクションがパラメーターを渡されることを
+// CakePHP に伝えます。
+Router::scope(
+    '/articles',
+    ['controller' => 'Articles'],
+    function (RouteBuilder $routes) {
+        $routes->connect('/tagged/*', ['action' => 'tags']);
+    }
+);
+
 Router::scope('/', function (RouteBuilder $routes) {
     // Register scoped middleware for in scopes.
     $routes->registerMiddleware('csrf', new CsrfProtectionMiddleware([
@@ -57,18 +68,17 @@ Router::scope('/', function (RouteBuilder $routes) {
      */
     $routes->applyMiddleware('csrf');
 
-    /**
-     * Here, we are connecting '/' (base path) to a controller called 'Pages',
-     * its action called 'display', and we pass a param to select the view file
-     * to use (in this case, src/Template/Pages/home.ctp)...
-     */
-    $routes->connect('/', ['controller' => 'Pages', 'action' => 'display', 'home']);
+    // デフォルトの home と /pages/* ルートを接続。
+    $routes->connect('/', [
+        'controller' => 'Pages',
+        'action' => 'display', 'home'
+    ]);
+    $routes->connect('/pages/*', [
+        'controller' => 'Pages',
+        'action' => 'display'
+    ]);
 
-    /**
-     * ...and connect the rest of 'Pages' controller's URLs.
-     */
-    $routes->connect('/pages/*', ['controller' => 'Pages', 'action' => 'display']);
-
+    // 規約に基づいたデフォルトルートを接続。
     /**
      * Connect catchall routes for all controllers.
      *

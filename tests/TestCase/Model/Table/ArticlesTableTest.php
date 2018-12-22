@@ -24,10 +24,10 @@ class ArticlesTableTest extends TestCase
      * @var array
      */
     public $fixtures = [
-        'app.articles',
-        'app.tags',
-        'app.articles_tags',
-        'app.users',
+        'app.Articles',
+        'app.Tags',
+        'app.ArticlesTags',
+        'app.Users',
     ];
 
     /**

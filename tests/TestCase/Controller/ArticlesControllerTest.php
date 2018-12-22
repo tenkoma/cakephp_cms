@@ -16,10 +16,10 @@ class ArticlesControllerTest extends IntegrationTestCase
      * @var array
      */
     public $fixtures = [
-        'app.users',
-        'app.articles',
-        'app.tags',
-        'app.articles_tags'
+        'app.Users',
+        'app.Articles',
+        'app.Tags',
+        'app.ArticleTags'
     ];
 
     public function test記事一覧を表示()
