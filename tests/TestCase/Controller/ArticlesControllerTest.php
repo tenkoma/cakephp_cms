@@ -19,7 +19,7 @@ class ArticlesControllerTest extends IntegrationTestCase
         'app.Users',
         'app.Articles',
         'app.Tags',
-        'app.ArticleTags'
+        'app.ArticlesTags'
     ];
 
     public function test記事一覧を表示()
