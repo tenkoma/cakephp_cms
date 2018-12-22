@@ -59,6 +59,8 @@ class ArticlesControllerTest extends IntegrationTestCase
 
     public function test記事が追加されると記事一覧にリダイレクトする()
     {
+        $this->enableCsrfToken();
+        $this->enableSecurityToken();
         $this->session(['Auth.User.id' => 1]);
         $this->post('/articles/add', [
             'title' => 'Nintendo Switch を購入！',
@@ -75,6 +77,8 @@ class ArticlesControllerTest extends IntegrationTestCase
 
     public function testバリデーションエラーだと追加できずエラーメッセージが表示される()
     {
+        $this->enableCsrfToken();
+        $this->enableSecurityToken();
         $this->session(['Auth.User.id' => 1]);
         $this->post('/articles/add', [
             'title' => 'Nintendo Switch を購入！',
@@ -100,6 +104,8 @@ class ArticlesControllerTest extends IntegrationTestCase
 
     public function test記事を更新し記事一覧にリダイレクトする()
     {
+        $this->enableCsrfToken();
+        $this->enableSecurityToken();
         $this->session(['Auth.User.id' => 1]);
         $this->post('/articles/edit/CakePHP3-chutoriaru', [
             // タイトルを変更する
@@ -116,6 +122,8 @@ class ArticlesControllerTest extends IntegrationTestCase
 
     public function testバリデーションエラーだと更新できずエラーメッセージが表示される()
     {
+        $this->enableCsrfToken();
+        $this->enableSecurityToken();
         $this->session(['Auth.User.id' => 1]);
         $this->post('/articles/edit/CakePHP3-chutoriaru', [
             // タイトルを変更する
@@ -131,6 +139,8 @@ class ArticlesControllerTest extends IntegrationTestCase
 
     public function test記事を削除してその後記事一覧にリダイレクトする()
     {
+        $this->enableCsrfToken();
+        $this->enableSecurityToken();
         $this->session(['Auth.User.id' => 1]);
         $this->post('/articles/delete/CakePHP3-chutoriaru');
 

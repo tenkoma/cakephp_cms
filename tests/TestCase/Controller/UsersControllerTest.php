@@ -36,6 +36,8 @@ class UsersControllerTest extends IntegrationTestCase
      */
     public function testLoginFailed()
     {
+        $this->enableCsrfToken();
+        $this->enableSecurityToken();
         $this->post('/users/login', [
             'email' => 'myname@example.com',
             'password' => 'wrongpassword',
@@ -49,6 +51,8 @@ class UsersControllerTest extends IntegrationTestCase
      */
     public function testLoginSucceed()
     {
+        $this->enableCsrfToken();
+        $this->enableSecurityToken();
         $this->post('/users/login?redirect=%2Farticles%2Fadd', [
             'email' => 'myname@example.com',
             'password' => 'password',
