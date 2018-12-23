@@ -18,7 +18,6 @@ class UsersControllerTest extends IntegrationTestCase
      */
     public $fixtures = [
         'app.Users',
-        'app.Articles'
     ];
 
     /**
