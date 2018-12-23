@@ -38,8 +38,9 @@ class ArticlesTableTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $config = TableRegistry::exists('Articles') ? [] : ['className' => ArticlesTable::class];
-        $this->ArticlesTable = TableRegistry::get('Articles', $config);
+        $tableLocator = TableRegistry::getTableLocator();
+        $config = $tableLocator->exists('Articles') ? [] : ['className' => ArticlesTable::class];
+        $this->ArticlesTable = $tableLocator->get('Articles', $config);
     }
 
     /**
