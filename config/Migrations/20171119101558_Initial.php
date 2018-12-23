@@ -174,9 +174,9 @@ class Initial extends AbstractMigration
                 'tag_id'
             );
 
-        $this->dropTable('articles');
-        $this->dropTable('articles_tags');
-        $this->dropTable('tags');
-        $this->dropTable('users');
+        $this->table('articles')->drop()->save();
+        $this->table('articles_tags')->drop()->save();
+        $this->table('tags')->drop()->save();
+        $this->table('users')->drop()->save();
     }
 }

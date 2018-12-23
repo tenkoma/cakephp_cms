@@ -24,10 +24,10 @@ class ArticlesTableTest extends TestCase
      * @var array
      */
     public $fixtures = [
-        'app.articles',
-        'app.tags',
-        'app.articles_tags',
-        'app.users',
+        'app.Articles',
+        'app.Tags',
+        'app.ArticlesTags',
+        'app.Users',
     ];
 
     /**
@@ -38,8 +38,9 @@ class ArticlesTableTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $config = TableRegistry::exists('Articles') ? [] : ['className' => ArticlesTable::class];
-        $this->ArticlesTable = TableRegistry::get('Articles', $config);
+        $tableLocator = TableRegistry::getTableLocator();
+        $config = $tableLocator->exists('Articles') ? [] : ['className' => ArticlesTable::class];
+        $this->ArticlesTable = $tableLocator->get('Articles', $config);
     }
 
     /**

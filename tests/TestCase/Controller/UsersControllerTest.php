@@ -1,15 +1,15 @@
 <?php
 namespace App\Test\TestCase\Controller;
 
-use App\Controller\UsersController;
-use Cake\ORM\TableRegistry;
-use Cake\TestSuite\IntegrationTestCase;
+use Cake\TestSuite\IntegrationTestTrait;
+use Cake\TestSuite\TestCase;
 
 /**
  * App\Controller\UsersController Test Case
  */
-class UsersControllerTest extends IntegrationTestCase
+class UsersControllerTest extends TestCase
 {
+    use IntegrationTestTrait;
 
     /**
      * Fixtures
@@ -17,8 +17,7 @@ class UsersControllerTest extends IntegrationTestCase
      * @var array
      */
     public $fixtures = [
-        'app.users',
-        'app.articles'
+        'app.Users',
     ];
 
     /**
@@ -36,6 +35,8 @@ class UsersControllerTest extends IntegrationTestCase
      */
     public function testLoginFailed()
     {
+        $this->enableCsrfToken();
+        $this->enableSecurityToken();
         $this->post('/users/login', [
             'email' => 'myname@example.com',
             'password' => 'wrongpassword',
@@ -49,6 +50,8 @@ class UsersControllerTest extends IntegrationTestCase
      */
     public function testLoginSucceed()
     {
+        $this->enableCsrfToken();
+        $this->enableSecurityToken();
         $this->post('/users/login?redirect=%2Farticles%2Fadd', [
             'email' => 'myname@example.com',
             'password' => 'password',

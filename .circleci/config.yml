@@ -2,7 +2,7 @@ version: 2
 jobs:
   php_test:
     docker:
-      - image: circleci/php:7.1-node-browsers
+      - image: circleci/php:7.2-node-browsers
         environment:
           DEBUG: true
           DATABASE_URL: "mysql://cakephp:password@127.0.0.1/cake_cms?encoding=utf8mb4&timezone=UTC&cacheMetadata=true"
