@@ -5,10 +5,9 @@ This is a [CakePHP Cookbook's CMS tutorial](https://book.cakephp.org/3.0/en/tuto
 # Installation
 
 ```bash
-$ docker-compose up -d
-$ docker-compose run composer install --ignore-platform-reqs --no-interaction
-$ docker-compose run php-cli bin/cake migrations migrate
-$ docker-compose run php-cli ./vendor/bin/phpunit
+$ make
+$ make migrate
+$ make test
 ```
 
 When accessing http://localhost:8000/ in the browser the Welcome page will be displayed.
@@ -16,5 +15,5 @@ When accessing http://localhost:8000/ in the browser the Welcome page will be di
 # shut down
 
 ```bash
-docker-compose down
+make clean
 ```
