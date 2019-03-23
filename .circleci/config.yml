@@ -27,7 +27,10 @@ jobs:
             - "/home/ubuntu/.composer/cache"
       - run:
           name: create test repot dir
-          command: mkdir -p $CIRCLE_TEST_REPORTS/phpunit
+          command: mkdir -p $CIRCLE_TEST_REPORTS/phpunit $CIRCLE_TEST_REPORTS/phpstan
+      - run:
+          name: Run PHPStan
+          command: vendor/bin/phpstan analyse --level=0 --error-format=checkstyle src tests > $CIRCLE_TEST_REPORTS/phpstan/checkstyle.xml
       - run:
           name: Wait for MySQL DB
           command: dockerize -wait tcp://localhost:3306 -timeout 1m
@@ -37,7 +40,9 @@ jobs:
       - run:
           name: Initialize Database
           command: bin/cake migrations migrate
-      - run: vendor/bin/phpunit --configuration phpunit.xml.dist --log-junit $CIRCLE_TEST_REPORTS/phpunit/junit.xml
+      - run:
+          name: Tests
+          command: vendor/bin/phpunit --configuration phpunit.xml.dist --log-junit $CIRCLE_TEST_REPORTS/phpunit/junit.xml
 
 workflows:
   version: 2
