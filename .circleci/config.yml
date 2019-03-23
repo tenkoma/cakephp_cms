@@ -30,7 +30,7 @@ jobs:
           command: mkdir -p $CIRCLE_TEST_REPORTS/phpunit $CIRCLE_TEST_REPORTS/phpstan
       - run:
           name: Run PHPStan
-          command: vendor/bin/phpstan analyse --level=0 --error-format=checkstyle src tests > $CIRCLE_TEST_REPORTS/phpstan/checkstyle.xml
+          command: vendor/bin/phpstan --configuration=phpstan.neon.dist --error-format=junit --level=5 --no-progress --no-interaction analyse src tests
       - run:
           name: Wait for MySQL DB
           command: dockerize -wait tcp://localhost:3306 -timeout 1m

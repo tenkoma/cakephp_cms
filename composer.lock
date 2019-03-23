@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a5d198461d4aac6ad4cf068d0072cf45",
+    "content-hash": "ab7c2dc6876c54e2c24e9ade9c8f94f5",
     "packages": [
         {
             "name": "aura/intl",
@@ -2194,6 +2194,41 @@
             "time": "2018-02-14T22:26:30+00:00"
         },
         {
+            "name": "mavimo/phpstan-junit",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mavimo/phpstan-junit.git",
+                "reference": "af19efa2f0a351e1f48ed2dc5602c6f1dca8330e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mavimo/phpstan-junit/zipball/af19efa2f0a351e1f48ed2dc5602c6f1dca8330e",
+                "reference": "af19efa2f0a351e1f48ed2dc5602c6f1dca8330e",
+                "shasum": ""
+            },
+            "require": {
+                "php": "~7.1",
+                "phpstan/phpstan": "^0.11"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^8.0",
+                "slevomat/coding-standard": "^5.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Mavimo\\PHPStan\\ErrorFormatter\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "PHPStan JUnit error reporter",
+            "time": "2019-03-16T16:25:39+00:00"
+        },
+        {
             "name": "myclabs/deep-copy",
             "version": "1.8.1",
             "source": {
@@ -3645,6 +3680,7 @@
                 "mock",
                 "xunit"
             ],
+            "abandoned": true,
             "time": "2018-08-09T05:50:03+00:00"
         },
         {
@@ -4912,7 +4948,8 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "cakephp/migrations": 0,
-        "psy/psysh": 0
+        "psy/psysh": 0,
+        "mavimo/phpstan-junit": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,
