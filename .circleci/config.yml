@@ -33,7 +33,7 @@ jobs:
       - run:
           name: Run PHPStan
           shell: /bin/sh
-          command: vendor/bin/phpstan --configuration=phpstan.neon.dist --error-format=raw --no-progress --no-interaction analyse | ./reviewdog -f=phpstan -reporter=github-pr-check
+          command: vendor/bin/phpstan --configuration=phpstan.neon.dist --error-format=raw --no-progress --no-interaction analyse | ./reviewdog -f=phpstan -reporter=github-pr-review
       - run:
           name: Wait for MySQL DB
           command: dockerize -wait tcp://localhost:3306 -timeout 1m
