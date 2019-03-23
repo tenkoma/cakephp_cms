@@ -1,3 +1,5 @@
-services:
-    errorFormatter.junit:
-        class: Mavimo\PHPStan\ErrorFormatter\JunitErrorFormatter
+parameters:
+  level: 5
+  paths:
+    - src
+    - tests
