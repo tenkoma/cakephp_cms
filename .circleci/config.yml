@@ -8,6 +8,7 @@ jobs:
           DATABASE_URL: "mysql://cakephp:password@127.0.0.1/cake_cms?encoding=utf8mb4&timezone=UTC&cacheMetadata=true"
           DATABASE_TEST_URL: "mysql://cakephp:password@127.0.0.1/test_cake_cms?encoding=utf8mb4&timezone=UTC&cacheMetadata=true"
           CIRCLE_TEST_REPORTS: ~/report
+          REVIEWDOG_VERSION: "0.9.11"
       - image: circleci/mysql:5.7
         command: mysqld  --character-set-server=utf8mb4 --collation-server=utf8mb4_general_ci
         environment:
@@ -20,6 +21,7 @@ jobs:
       - restore_cache:
           key: cakephp-cms-{{ .Branch }}
       - checkout
+      - run: curl -fSL https://github.com/haya14busa/reviewdog/releases/download/$REVIEWDOG_VERSION/reviewdog_linux_amd64 -o reviewdog && chmod +x ./reviewdog
       - run: composer install --dev --no-interaction
       - save_cache:
           key: cakephp-cms-{{ .Branch }}
@@ -27,7 +29,11 @@ jobs:
             - "/home/ubuntu/.composer/cache"
       - run:
           name: create test repot dir
-          command: mkdir -p $CIRCLE_TEST_REPORTS/phpunit
+          command: mkdir -p $CIRCLE_TEST_REPORTS/phpunit $CIRCLE_TEST_REPORTS/phpstan
+      - run:
+          name: Run PHPStan
+          shell: /bin/sh
+          command: vendor/bin/phpstan --configuration=phpstan.neon.dist --error-format=raw --no-progress --no-interaction analyse | ./reviewdog -f=phpstan -reporter=github-pr-review
       - run:
           name: Wait for MySQL DB
           command: dockerize -wait tcp://localhost:3306 -timeout 1m
@@ -37,7 +43,9 @@ jobs:
       - run:
           name: Initialize Database
           command: bin/cake migrations migrate
-      - run: vendor/bin/phpunit --configuration phpunit.xml.dist --log-junit $CIRCLE_TEST_REPORTS/phpunit/junit.xml
+      - run:
+          name: Tests
+          command: vendor/bin/phpunit --configuration phpunit.xml.dist --log-junit $CIRCLE_TEST_REPORTS/phpunit/junit.xml
 
 workflows:
   version: 2
